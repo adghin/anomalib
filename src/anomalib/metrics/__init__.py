@@ -11,6 +11,10 @@ from typing import Any
 import torchmetrics
 from omegaconf import DictConfig, ListConfig
 
+#Add new metrics path here
+from .precision import PRECISION
+from .recall import RECALL
+
 from .anomaly_score_distribution import AnomalyScoreDistribution
 from .aupr import AUPR
 from .aupro import AUPRO
@@ -23,7 +27,11 @@ from .precision_recall_curve import BinaryPrecisionRecallCurve
 from .pro import PRO
 from .threshold import F1AdaptiveThreshold, ManualThreshold
 
+#Add new metrics here
+
 __all__ = [
+    "PRECISION",
+    "RECALL",
     "AUROC",
     "AUPR",
     "AUPRO",

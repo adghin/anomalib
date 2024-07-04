@@ -582,6 +582,9 @@ class Engine:
                 anomalib validate --config <config_file_path>
                 ```
         """
+        print(self.image_metric_names)
+        print(self.pixel_metric_names)
+
         if ckpt_path:
             ckpt_path = Path(ckpt_path).resolve()
         if model:
@@ -669,6 +672,9 @@ class Engine:
                 anomalib test --config <config_file_path>
                 ```
         """
+        print(self.image_metric_names)
+        print(self.pixel_metric_names)
+        
         if ckpt_path:
             ckpt_path = Path(ckpt_path).resolve()
 
