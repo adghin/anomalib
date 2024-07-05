@@ -7,7 +7,6 @@ import torch
 from torchmetrics import Metric
 
 from anomalib.metrics.precision_recall_curve import BinaryPrecisionRecallCurve
-from torchmetrics.functional.classification import binary_precision
 
 logger = logging.getLogger(__name__)
 

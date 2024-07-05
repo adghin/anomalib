@@ -69,12 +69,7 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
         """
         prec: torch.Tensor
 
-        preds, target, _ = BinaryPrecisionRecallCurve._binary_precision_recall_curve_format(
-                    preds,
-                    target
-                )
-        
-        prec = binary_precision(preds,target)
+        prec = binary_precision(self.preds,self.target)
 
         return prec
     
@@ -84,14 +79,9 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
 
         Returns: tensor with the value of the precision
         """
-        prec: torch.Tensor
+        rec: torch.Tensor
 
-        preds, target, _ = BinaryPrecisionRecallCurve._binary_precision_recall_curve_format(
-                    preds,
-                    target
-                )
-        
-        rec = binary_recall(preds,target)
+        rec = binary_precision(self.preds,self.target)
 
         return rec
 
