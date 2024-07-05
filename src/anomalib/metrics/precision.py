@@ -11,7 +11,7 @@ from torchmetrics.functional.classification import binary_precision
 
 logger = logging.getLogger(__name__)
 
-class PRECISION():
+class PRECISION(BinaryPrecisionRecallCurve):
     """Compute precision metric"""
 
     def __init__(self, **kwargs) -> None:
