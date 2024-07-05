@@ -100,6 +100,9 @@ class F1Max(Metric):
         print("F1Max (recall)")
         print(recall)
         print(recall.shape)
+        print("F1Score")
+        print(f1_score)
+        print(f1_score.shape)
         return torch.max(f1_score)
 
     def reset(self) -> None:
