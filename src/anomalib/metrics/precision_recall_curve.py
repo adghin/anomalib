@@ -72,7 +72,7 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
         print(self.target)
 
         preds = torch.cat(self.preds)
-        target = toch.cat(self.target)
+        target = torch.cat(self.target)
 
         print(preds)
         print(target)
