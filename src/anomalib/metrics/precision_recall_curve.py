@@ -67,8 +67,15 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
 
         Returns: tensor with the value of the precision
         """
+
         print(self.preds)
         print(self.target)
+
+        preds = torch.cat(self.preds)
+        target = toch.cat(self.target)
+
+        print(preds)
+        print(target)
 
     
     def compute_recall(self) -> torch.Tensor:
