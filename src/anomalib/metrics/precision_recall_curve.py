@@ -7,13 +7,16 @@ See: https://github.com/Lightning-AI/torchmetrics/issues/1526
 # Copyright (C) 2024 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-
+import torch
 from torch import Tensor
 from torchmetrics.classification import BinaryPrecisionRecallCurve as _BinaryPrecisionRecallCurve
 from torchmetrics.functional.classification.precision_recall_curve import (
     _adjust_threshold_arg,
     _binary_precision_recall_curve_update,
 )
+
+from torchmetrics.functional.classification import binary_precision
+from torchmetrics.functional.classification import binary_recall
 
 class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
     """Binary precision-recall curve with without threshold prediction normalization."""
@@ -57,3 +60,39 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
         else:
             self.preds.append(state[0])
             self.target.append(state[1])
+
+    def compute_precision() -> torch.Tensor:
+        """
+        Compute the precision based on preds and targets
+
+        Returns: tensor with the value of the precision
+        """
+        prec: torch.Tensor
+
+        preds, target, _ = BinaryPrecisionRecallCurve._binary_precision_recall_curve_format(
+                    preds,
+                    target
+                )
+        
+        prec = binary_precision(preds,target)
+
+        return prec
+    
+    def compute_recall() -> torch.Tensor:
+        """
+        Compute the recall based on preds and targets
+
+        Returns: tensor with the value of the precision
+        """
+        prec: torch.Tensor
+
+        preds, target, _ = BinaryPrecisionRecallCurve._binary_precision_recall_curve_format(
+                    preds,
+                    target
+                )
+        
+        rec = binary_recall(preds,target)
+
+        return rec
+
+

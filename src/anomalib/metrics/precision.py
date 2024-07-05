@@ -29,10 +29,11 @@ class PRECISION(BinaryPrecisionRecallCurve):
 
     def compute(self) -> torch.Tensor:
 
-        preds, targets, _ = self.precision_recall_curve._binary_precision_recall_curve_format()
+        prec: torch.Tensor
 
-        print(preds)
-        print(targets)
+        prec = self.precision_recall_curve.compute_precision()
+
+        return prec
 
     def reset(self) -> None:
         """Reset the metric."""
