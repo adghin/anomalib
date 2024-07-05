@@ -61,7 +61,7 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
             self.preds.append(state[0])
             self.target.append(state[1])
 
-    def compute_precision() -> torch.Tensor:
+    def compute_precision(self) -> torch.Tensor:
         """
         Compute the precision based on preds and targets
 
@@ -78,7 +78,7 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
 
         return prec
     
-    def compute_recall() -> torch.Tensor:
+    def compute_recall(self) -> torch.Tensor:
         """
         Compute the recall based on preds and targets
 
