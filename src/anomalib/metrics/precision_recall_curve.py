@@ -15,7 +15,6 @@ from torchmetrics.functional.classification.precision_recall_curve import (
     _binary_precision_recall_curve_update,
 )
 
-
 class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
     """Binary precision-recall curve with without threshold prediction normalization."""
 

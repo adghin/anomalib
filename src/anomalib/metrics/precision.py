@@ -7,10 +7,11 @@ import torch
 from torchmetrics import Metric
 
 from anomalib.metrics.precision_recall_curve import BinaryPrecisionRecallCurve
+from torchmetrics.functional.classification import binary_precision
 
 logger = logging.getLogger(__name__)
 
-class PRECISION(BinaryPrecisionRecallCurve):
+class PRECISION():
     """Compute precision metric"""
 
     def __init__(self, **kwargs) -> None:
@@ -27,16 +28,11 @@ class PRECISION(BinaryPrecisionRecallCurve):
         self.precision_recall_curve.update(preds, target)
 
     def compute(self) -> torch.Tensor:
-        """Compute the value of precision score.
 
-        Returns:
-            Value of the precision score.
-        """
-        precision: torch.Tensor
+        preds, targets, _ = self.precision_recall_curve._binary_precision_recall_curve_format()
 
-        precision, recall, thresholds = self.precision_recall_curve.compute()
-        
-        return precision
+        print(preds)
+        print(targets)
 
     def reset(self) -> None:
         """Reset the metric."""
