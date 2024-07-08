@@ -404,7 +404,7 @@ class Folder(AnomalibDataModule):
         test_split_ratio: float = 0.2,
         val_split_mode: ValSplitMode | str = ValSplitMode.FROM_TEST,
         val_split_ratio: float = 0.5,
-        seed: int | None = None,
+        seed: int | None = 42,
     ) -> None:
         self._name = name
         self.root = root
