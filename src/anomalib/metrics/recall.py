@@ -2,34 +2,24 @@
 """@author: adghin"""
 
 import logging
+from typing import Any, Literal
 
 import torch
-from torchmetrics import Metric
-
-from anomalib.metrics.precision_recall_curve import BinaryPrecisionRecallCurve
+from torchmetrics.classification import BinaryRecall
 
 logger = logging.getLogger(__name__)
 
-class RECALL(BinaryPrecisionRecallCurve):
+class RECALL(BinaryRecall):
     """
     This class returns the recall metric, which is computed in the BinaryPrecisionRecallCurve class from
     anomalib.metrics.precision_recall_curve. This is needed just for the sake of consistencty with the anomalib metrics collection.
     """
-    def __init__(self, **kwargs) -> None:
-        super().__init__(**kwargs)
-        self.precision_recall_curve = BinaryPrecisionRecallCurve()
-
-    def update(self, preds: torch.Tensor, target: torch.Tensor, *args, **kwargs) -> None:
-        """Update the precision-recall curve metric."""
-        del args, kwargs  # These variables are not used.
-
-        self.precision_recall_curve.update(preds, target)
-
-    def compute(self) -> torch.Tensor:
-        """
-        Returns: tensor with the precision value to be logged on the results
-        """
-        recall: torch.Tensor
-        recall = self.precision_recall_curve.compute_recall()
-        
-        return recall
+    def __init__(
+            self,
+            threshold: float = 0.5,
+            multidim_average: Literal["global"] | Literal["samplewise"] = "global",
+            ignore_index: int | None = None,
+            validate_args: bool = True,
+            **kwargs: Any,  # noqa: ANN401
+        ) -> None:
+            super().__init__(threshold, multidim_average, ignore_index, validate_args, **kwargs)
