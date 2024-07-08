@@ -41,7 +41,3 @@ class RECALL(BinaryPrecisionRecallCurve):
         rec_list.append(recall)
         print(rec_list)
         return recall
-    
-    def reset(self) -> None:
-        """Reset the metric."""
-        self.precision_recall_curve.reset()
