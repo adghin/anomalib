@@ -91,14 +91,12 @@ class F1Max(Metric):
         thresholds: torch.Tensor
 
         precision, recall, thresholds = self.precision_recall_curve.compute()
-        f1_score = (2 * precision * recall) / (precision + recall + 1e-10)
+        f1_score = (2 * precision * recall) / (precision + recall)
         self.threshold = thresholds[torch.argmax(f1_score)]
 
         print("F1Max (precision)")
-        print(precision)
         print(precision.shape)
         print("F1Max (recall)")
-        print(recall)
         print(recall.shape)
         print("F1Score")
         print(f1_score)
