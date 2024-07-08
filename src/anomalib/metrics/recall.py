@@ -4,7 +4,6 @@
 import logging
 from typing import Any, Literal
 
-import torch
 from torchmetrics.classification import BinaryRecall
 
 logger = logging.getLogger(__name__)

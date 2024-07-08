@@ -15,9 +15,6 @@ from torchmetrics.functional.classification.precision_recall_curve import (
     _binary_precision_recall_curve_update,
 )
 
-from torchmetrics.functional.classification import binary_precision
-from torchmetrics.functional.classification import binary_recall
-
 class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
     """Binary precision-recall curve with without threshold prediction normalization."""
 
@@ -60,36 +57,3 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
         else:
             self.preds.append(state[0])
             self.target.append(state[1])
-
-    def compute_precision(self) -> torch.Tensor:
-        """
-        Compute the precision based on preds and targets
-
-        Returns: tensor with the value of the precision
-        """
-
-        prec: torch.Tensor
-
-
-        preds = torch.cat(self.preds) if isinstance(self.preds, list) else self.preds
-        target = torch.cat(self.target) if isinstance(self.target, list) else self.target
-
-        prec = binary_precision(preds,target)
-        return prec
-
-    def compute_recall(self) -> torch.Tensor:
-        """
-        Compute the recall based on preds and targets
-
-        Returns: tensor with the value of the recall
-        """
-        rec: torch.Tensor
-
-
-        preds = torch.cat(self.preds) if isinstance(self.preds, list) else self.preds
-        target = torch.cat(self.target) if isinstance(self.target, list) else self.target
-
-        rec = binary_recall(preds,target)
-        return rec
-
-

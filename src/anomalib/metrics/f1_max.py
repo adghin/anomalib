@@ -94,13 +94,12 @@ class F1Max(Metric):
         f1_score = (2 * precision * recall) / (precision + recall)
         self.threshold = thresholds[torch.argmax(f1_score)]
 
-        print("F1Max (precision)")
-        print(precision.shape)
-        print("F1Max (recall)")
-        print(recall.shape)
-        print("F1Score")
-        print(f1_score)
-        print(f1_score.shape)
+        print("Precision computed from F1Max metric (precision_recall_curve), taken as torch.max(precision)")
+        print(torch.max(precision))
+        print("Recall computed from F1Max metric (precision_recall_curve), taken as torch.max(recall)")
+        print(torch.max(recall))
+        print("F1Score computed from F1Max metric (precision_recall_curve), taken as torch.max(f1_score)")
+        print(torch.max(f1_score))
         return torch.max(f1_score)
 
     def reset(self) -> None:

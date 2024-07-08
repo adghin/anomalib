@@ -4,10 +4,7 @@
 import logging
 from typing import Any, Literal
 
-import torch
 from torchmetrics.classification import BinaryPrecision
-
-#from anomalib.metrics.precision_recall_curve import BinaryPrecisionRecallCurve
 
 logger = logging.getLogger(__name__)
 
