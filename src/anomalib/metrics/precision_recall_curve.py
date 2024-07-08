@@ -70,6 +70,9 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
 
         prec: torch.Tensor
 
+        print(self.preds)
+        print(self.target)
+
         preds = torch.cat(self.preds) if isinstance(self.preds, list) else self.preds
         target = torch.cat(self.target) if isinstance(self.target, list) else self.target
 
@@ -83,6 +86,9 @@ class BinaryPrecisionRecallCurve(_BinaryPrecisionRecallCurve):
         Returns: tensor with the value of the recall
         """
         rec: torch.Tensor
+
+        print(self.preds)
+        print(self.target)
 
         preds = torch.cat(self.preds) if isinstance(self.preds, list) else self.preds
         target = torch.cat(self.target) if isinstance(self.target, list) else self.target

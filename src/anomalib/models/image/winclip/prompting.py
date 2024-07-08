@@ -68,4 +68,5 @@ def create_prompt_ensemble(class_name: str = "object") -> tuple[list[str], list[
 
     anomalous_states = [state.format(class_name) for state in ANOMALOUS_STATES]
     anomalous_ensemble = [template.format(state) for state in anomalous_states for template in TEMPLATES]
+    
     return normal_ensemble, anomalous_ensemble

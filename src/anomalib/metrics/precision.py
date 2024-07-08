@@ -31,6 +31,7 @@ class PRECISION(BinaryPrecisionRecallCurve):
         """
         precision: torch.Tensor
         precision = self.precision_recall_curve.compute_precision()
+        print(precision)
         return precision
     
     def reset(self) -> None:
