@@ -4,6 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 NORMAL_STATES = [
+    ###
+    #  ADDED NORMAL_STATES HERE   
+    "defect-free {}",
+    "{} without scratches",
+    "{} without cracks",
+    "{} without stains",
+    "{} without rust",
+    ###
     "{}",
     "flawless {}",
     "perfect {}",
@@ -14,6 +22,14 @@ NORMAL_STATES = [
 ]
 
 ANOMALOUS_STATES = [
+    ###
+    #  ADDED ANOMALOUS_STATES HERE   
+    "anomalous {}",
+    "{} with scratches",
+    "{} with cracks",
+    "{} with stains",
+    "{} with rust",
+    ###
     "damaged {}",
     "{} with flaw",
     "{} with defect",
