@@ -10,6 +10,8 @@ from anomalib.metrics.precision_recall_curve import BinaryPrecisionRecallCurve
 
 logger = logging.getLogger(__name__)
 
+global prec_list
+
 class PRECISION(BinaryPrecisionRecallCurve):
     """
     This class returns the recall metric, which is computed in the BinaryPrecisionRecallCurve class from
@@ -31,7 +33,12 @@ class PRECISION(BinaryPrecisionRecallCurve):
         """
         precision: torch.Tensor
         precision = self.precision_recall_curve.compute_precision()
-        print(precision)
+        
+        global prec_list
+
+        prec_list = []
+        prec_list.append(precision)
+        print(prec_list)
         return precision
     
     def reset(self) -> None:
