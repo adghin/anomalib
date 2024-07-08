@@ -672,7 +672,11 @@ class Engine:
                 anomalib test --config <config_file_path>
                 ```
         """
+        print("\n")
+        print("Image metrics:")
         print(self.image_metric_names)
+        print("\n")
+        print("Pixel metrics:")
         print(self.pixel_metric_names)
         
         if ckpt_path:
