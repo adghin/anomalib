@@ -10,8 +10,7 @@ logger = logging.getLogger(__name__)
 
 class PRECISION(BinaryPrecision):
     """
-    This class returns the recall metric, which is computed in the BinaryPrecisionRecallCurve class from
-    anomalib.metrics.precision_recall_curve. This is needed just for the sake of consistencty with the anomalib metrics collection.
+    This class returns the precision metric at fixed threshold.
     """
     def __init__(
             self,
