@@ -65,7 +65,8 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         self.k_shot = 0
 
         # initialize CLIP model
-        self.clip, _, self._transform = open_clip.create_model_and_transforms(self.backbone, pretrained=self.pretrained)
+        #self.clip, _, self._transform = open_clip.create_model_and_transforms(self.backbone, pretrained=self.pretrained)
+        self.clip, _, self._transform = open_clip.create_model_and_transforms('hf-hub:timm/vit_large_patch14_clip_336.openai')
         self.clip.visual.output_tokens = True
         self.grid_size = self.clip.visual.grid_size
 
@@ -327,13 +328,15 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         Args:
             class_name (str): The name of the object class used in the prompt ensemble.
         """
+        tokenizer = open_clip.get_tokenizer('hf-hub:timm/vit_large_patch14_clip_336.openai')
+
         # get the device, this is to ensure that we move the text embeddings to the same device as the model
         device = next(self.parameters()).device
         # collect prompt ensemble
         normal_prompts, anomalous_prompts = create_prompt_ensemble(class_name)
         # tokenize prompts
-        normal_tokens = tokenize(normal_prompts)
-        anomalous_tokens = tokenize(anomalous_prompts)
+        normal_tokens = tokenizer(normal_prompts)
+        anomalous_tokens = tokenizer(anomalous_prompts)
         # encode tokens to obtain prompt embeddings
         normal_embeddings = self.clip.encode_text(normal_tokens.to(device))
         anomalous_embeddings = self.clip.encode_text(anomalous_tokens.to(device))
