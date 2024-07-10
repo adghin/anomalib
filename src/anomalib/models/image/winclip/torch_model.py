@@ -74,7 +74,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         print("Pretrained: ")
         print(self.pretrained)
 
-        if self.pretrained != 'from_model':
+        if self.pretrained == 'from_model':
             self.clip, _, self._transform = open_clip.create_model_and_transforms('hf-hub:timm/vit_large_patch14_clip_336.openai')
         else:
             self.clip, _, self._transform = open_clip.create_model_and_transforms(self.backbone, pretrained=self.pretrained)

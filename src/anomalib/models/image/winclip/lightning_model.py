@@ -60,6 +60,10 @@ class WinClip(AnomalyModule):
         self.k_shot = k_shot
         self.few_shot_source = Path(few_shot_source) if few_shot_source else None
 
+        self._model_transform = self.model.transform
+        print(self._model_transform)
+        
+
     def _setup(self) -> None:
         """Setup WinCLIP.
 
