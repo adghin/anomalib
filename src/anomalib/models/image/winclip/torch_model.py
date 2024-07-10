@@ -22,7 +22,6 @@ BACKBONE = "ViT-B-16-plus-240"
 PRETRAINED = "laion400m_e31"
 TEMPERATURE = 0.07  # temperature hyperparameter from the clip paper
 
-
 class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
     """PyTorch module that implements the WinClip model for image anomaly detection.
 
@@ -53,10 +52,15 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         reference_images: torch.Tensor | None = None,
         scales: tuple = (2, 3),
         apply_transform: bool = False,
+        backbone: str = BACKBONE,
+        pretrained: str = PRETRAINED,
+        tokenizer: str | None = None,
     ) -> None:
         super().__init__()
-        self.backbone = BACKBONE
-        self.pretrained = PRETRAINED
+        self.backbone = backbone
+        self.pretrained = pretrained
+        self.tokenizer = tokenizer
+
         self.temperature = TEMPERATURE
         self.class_name = class_name
         self.reference_images = reference_images
@@ -65,8 +69,16 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         self.k_shot = 0
 
         # initialize CLIP model
-        #self.clip, _, self._transform = open_clip.create_model_and_transforms(self.backbone, pretrained=self.pretrained)
-        self.clip, _, self._transform = open_clip.create_model_and_transforms('hf-hub:timm/vit_large_patch14_clip_336.openai')
+        print("Backbone: ")
+        print(self.backbone)
+        print("Pretrained: ")
+        print(self.pretrained)
+
+        if self.pretrained != 'itself':
+            self.clip, _, self._transform = open_clip.create_model_and_transforms('hf-hub:timm/vit_large_patch14_clip_336.openai')
+        else:
+            self.clip, _, self._transform = open_clip.create_model_and_transforms(self.backbone, pretrained=self.pretrained)
+
         self.clip.visual.output_tokens = True
         self.grid_size = self.clip.visual.grid_size
 
@@ -328,15 +340,25 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         Args:
             class_name (str): The name of the object class used in the prompt ensemble.
         """
-        tokenizer = open_clip.get_tokenizer('hf-hub:timm/vit_large_patch14_clip_336.openai')
+
+        tokenizer = open_clip.get_tokenizer()
 
         # get the device, this is to ensure that we move the text embeddings to the same device as the model
         device = next(self.parameters()).device
         # collect prompt ensemble
         normal_prompts, anomalous_prompts = create_prompt_ensemble(class_name)
         # tokenize prompts
-        normal_tokens = tokenizer(normal_prompts)
-        anomalous_tokens = tokenizer(anomalous_prompts)
+
+        ### If tokenizer is set use it otherwise use default tokenizer
+        if self.tokenizer:
+            tokenize = open_clip.get_tokenizer(self.tokenizer)
+
+            normal_tokens = tokenize(normal_prompts)
+            anomalous_tokens = tokenize(anomalous_prompts)
+        else:
+            normal_tokens = tokenize(normal_prompts)
+            anomalous_tokens = tokenize(anomalous_prompts)
+
         # encode tokens to obtain prompt embeddings
         normal_embeddings = self.clip.encode_text(normal_tokens.to(device))
         anomalous_embeddings = self.clip.encode_text(anomalous_tokens.to(device))

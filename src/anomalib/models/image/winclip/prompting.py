@@ -24,12 +24,12 @@ NORMAL_STATES = [
 ANOMALOUS_STATES = [
     ###
     #  ADDED ANOMALOUS_STATES HERE   
-    "anomalous {}",
+    #"anomalous {}",
     #"{} with scratches",
     #"{} with cracks",
     #"{} with stains",
     #"{} with rust",
-    "broken {}",
+    #"broken {}",
     ###
     "damaged {}",
     "{} with flaw",

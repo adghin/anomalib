@@ -1,0 +1,13 @@
+model:
+  class_path: anomalib.models.WinClip
+  init_args:
+    backbone: 'hf-hub:timm/vit_large_patch14_clip_336.openai'
+    pretrained: 'itself'
+    tokenizer: 'hf-hub:timm/vit_large_patch14_clip_336.openai'
+
+metrics:
+  image:
+    - F1Score
+    - F1Max
+    - PRECISION
+    - RECALL

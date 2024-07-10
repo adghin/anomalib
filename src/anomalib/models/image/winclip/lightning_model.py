@@ -25,6 +25,8 @@ logger = logging.getLogger(__name__)
 
 __all__ = ["WinClip"]
 
+BACKBONE = "ViT-B-16-plus-240"
+PRETRAINED = "laion400m_e31"
 
 class WinClip(AnomalyModule):
     """WinCLIP Lightning model.
@@ -48,9 +50,12 @@ class WinClip(AnomalyModule):
         k_shot: int = 0,
         scales: tuple = (2, 3),
         few_shot_source: Path | str | None = None,
+        backbone: str = BACKBONE,
+        pretrained: str = PRETRAINED,
+        tokenizer: str = None,
     ) -> None:
         super().__init__()
-        self.model = WinClipModel(scales=scales, apply_transform=False)
+        self.model = WinClipModel(scales=scales, apply_transform=False, backbone=backbone, pretrained=pretrained, tokenizer=tokenizer)
         self.class_name = class_name
         self.k_shot = k_shot
         self.few_shot_source = Path(few_shot_source) if few_shot_source else None
@@ -172,9 +177,13 @@ class WinClip(AnomalyModule):
         """Configure the default transforms used by the model."""
         if image_size is not None:
             logger.warning("Image size is not used in WinCLIP. The input image size is determined by the model.")
+
+        transforms = self.model.transform
+        size       = (transforms[1].size,transforms[1].size)
+
         return Compose(
             [
-                Resize((336, 336), antialias=True, interpolation=InterpolationMode.BICUBIC),
+                Resize(size=size, antialias=True, interpolation=InterpolationMode.BICUBIC),
                 Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258, 0.27577711)),
             ],
         )
