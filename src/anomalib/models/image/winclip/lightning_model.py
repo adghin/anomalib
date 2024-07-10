@@ -61,9 +61,7 @@ class WinClip(AnomalyModule):
         self.few_shot_source = Path(few_shot_source) if few_shot_source else None
 
         self._model_transform = self.model.transform
-        print(self._model_transform)
         
-
     def _setup(self) -> None:
         """Setup WinCLIP.
 
@@ -182,7 +180,7 @@ class WinClip(AnomalyModule):
         if image_size is not None:
             logger.warning("Image size is not used in WinCLIP. The input image size is determined by the model.")
 
-        transforms = self.model.transform
+        transforms = self._model_transform.transforms
         size       = (transforms[1].size,transforms[1].size)
 
         return Compose(
