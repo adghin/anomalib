@@ -340,9 +340,6 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         Args:
             class_name (str): The name of the object class used in the prompt ensemble.
         """
-
-        tokenizer = open_clip.get_tokenizer()
-
         # get the device, this is to ensure that we move the text embeddings to the same device as the model
         device = next(self.parameters()).device
         # collect prompt ensemble
