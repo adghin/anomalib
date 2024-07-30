@@ -78,6 +78,8 @@ class F1AdaptiveThreshold(BinaryPrecisionRecallCurve, BaseThreshold):
             self.value = thresholds
         else:
             self.value = thresholds[torch.argmax(f1_score)]
+
+        print("Threshold value:",self.value)
         return self.value
 
     def __repr__(self) -> str:
