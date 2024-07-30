@@ -550,7 +550,7 @@ class Engine:
         ckpt_path: str | Path | None = None,
         verbose: bool = True,
         datamodule: AnomalibDataModule | None = None,
-    ) -> _EVALUATE_OUTPUT | None:
+    ) -> _EVALUATE_OUTPUT:
         """Validate the model using the trainer.
 
         Args:
@@ -695,7 +695,7 @@ class Engine:
         self._setup_transform(model or self.model, datamodule=datamodule, ckpt_path=ckpt_path)
         if self._should_run_validation(model or self.model, dataloaders, datamodule, ckpt_path):
             logger.info("Running validation before testing to collect normalization metrics and/or thresholds.")
-            self.trainer.validate(model, dataloaders, None, verbose=False, datamodule=datamodule)
+            self.trainer.validate(model, dataloaders, None, verbose=True, datamodule=datamodule)
 
         print("Normalization after validation:",self.normalization)
         print("Threshold after validation:",self.threshold)
