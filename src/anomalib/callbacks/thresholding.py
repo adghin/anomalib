@@ -195,3 +195,5 @@ class _ThresholdCallback(Callback):
             pl_module.pixel_threshold.compute()
         else:
             pl_module.pixel_threshold.value = pl_module.image_threshold.value
+
+        print("inside _compute:", pl_module.image_threshold.value, pl_module.pixel_threshold.value)
