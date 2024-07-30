@@ -424,11 +424,13 @@ class Engine:
         _callbacks.append(_PostProcessorCallback())
 
         # Add the the normalization callback.
+        print("Normalization callback":, self.normalization)
         normalization_callback = get_normalization_callback(self.normalization)
         if normalization_callback is not None:
             _callbacks.append(normalization_callback)
 
         # Add the thresholding and metrics callbacks.
+        print("Threshold callback:",self.threshold)
         _callbacks.append(_ThresholdCallback(self.threshold))
         _callbacks.append(_MetricsCallback(self.task, self.image_metric_names, self.pixel_metric_names))
 
@@ -685,6 +687,9 @@ class Engine:
         if self._should_run_validation(model or self.model, dataloaders, datamodule, ckpt_path):
             logger.info("Running validation before testing to collect normalization metrics and/or thresholds.")
             self.trainer.validate(model, dataloaders, None, verbose=False, datamodule=datamodule)
+
+        print("Normalization after validation:",self.normalization)
+        print("Threshold after validation:",self.threshold)
         return self.trainer.test(model, dataloaders, ckpt_path, verbose, datamodule)
 
     def predict(
