@@ -5,7 +5,7 @@
 
 from collections.abc import Callable
 from copy import copy
-
+import numpy as np
 import open_clip
 import torch
 from open_clip.tokenizer import tokenize
@@ -253,15 +253,15 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
 
         print("batch_size:", batch.shape[0])
         print("image_scores zero-shot shape:", image_scores.shape)
-        np.savetxt('image_score_zero_shot.txt', image_scores.numpy())
+        np.savetxt('image_score_zero_shot.txt', image_scores.cpu().numpy())
 
         # get few-shot scores
         if self.k_shot:
             few_shot_scores = self._compute_few_shot_scores(patch_embeddings, window_embeddings)
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
-            np.savetxt('torch_amax.txt', few_shot_scores.amax(dim=(-2,-1)))
+            np.savetxt('torch_amax.txt', few_shot_scores.amax(dim=(-2,-1)).cpu().numpy())
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
-            np.savetxt('image_scores+few_shot_amax.txt', image_scores.numpy())
+            np.savetxt('image_scores+few_shot_amax.txt', image_scores.cpu().numpy())
 
         # reshape to image dimensions
         pixel_scores = nn.functional.interpolate(
