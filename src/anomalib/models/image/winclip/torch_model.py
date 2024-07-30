@@ -253,7 +253,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
 
         print("batch_size:", batch.shape[0])
         print("image_scores zero-shot shape:", image_scores.shape)
-        print("Image scores zero-shot:",image_scores.cpu().numpy())
+        #print("Image scores zero-shot:",image_scores.cpu().numpy())
 
         # get few-shot scores
         if self.k_shot:
