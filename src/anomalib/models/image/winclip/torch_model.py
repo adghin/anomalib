@@ -251,7 +251,9 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         image_scores = class_scores(image_embeddings, self.text_embeddings, self.temperature, target_class=1)
         multi_scale_scores = self._compute_zero_shot_scores(image_scores, window_embeddings)
 
-        print("Image scores zero-shot:",image_scores)
+        print("batch_size:", batch.shape[0])
+        print("image_scores zero-shot shape:", image_scores.shape)
+        print("Image scores zero-shot:",image_scores.cpu().numpy())
 
         # get few-shot scores
         if self.k_shot:
@@ -259,7 +261,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
             print("torch.max():", few_shot_scores.ama(dim=(-2,-1)))
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
-            print("Image scores few-shot + zero-shot:",image_scores)
+            print("Image scores few-shot + zero-shot:",image_scores.cpu().numpy())
 
         # reshape to image dimensions
         pixel_scores = nn.functional.interpolate(
