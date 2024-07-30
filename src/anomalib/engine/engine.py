@@ -442,6 +442,9 @@ class Engine:
 
         _callbacks.append(TimerCallback())
 
+        print("Normalization callback:",self.normalization)
+        print("Threshold callback:",self.threshold)
+
         # Combine the callbacks, and update the trainer callbacks.
         self._cache.args["callbacks"] = _callbacks + self._cache.args["callbacks"]
 
@@ -693,6 +696,9 @@ class Engine:
         if self._should_run_validation(model or self.model, dataloaders, datamodule, ckpt_path):
             logger.info("Running validation before testing to collect normalization metrics and/or thresholds.")
             self.trainer.validate(model, dataloaders, None, verbose=False, datamodule=datamodule)
+
+        print("Normalization after validation:",self.normalization)
+        print("Threshold after validation:",self.threshold)
         return self.trainer.test(model, dataloaders, ckpt_path, verbose, datamodule)
 
     def predict(
