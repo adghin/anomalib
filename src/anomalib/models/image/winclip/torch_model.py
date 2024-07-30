@@ -259,7 +259,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         if self.k_shot:
             few_shot_scores = self._compute_few_shot_scores(patch_embeddings, window_embeddings)
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
-            print("torch.max():", few_shot_scores.amax(dim=(-2,-1)))
+            #print("torch.max():", few_shot_scores.amax(dim=(-2,-1)))
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
             print("Image scores few-shot + zero-shot:",image_scores.cpu().numpy())
 
