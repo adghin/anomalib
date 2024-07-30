@@ -261,7 +261,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
             #print("torch.max():", few_shot_scores.amax(dim=(-2,-1)))
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
-            print("Image scores few-shot + zero-shot:",image_scores.cpu().numpy())
+            #print("Image scores few-shot + zero-shot:",image_scores.cpu().numpy())
 
         # reshape to image dimensions
         pixel_scores = nn.functional.interpolate(
