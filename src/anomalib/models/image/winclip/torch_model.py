@@ -251,24 +251,23 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
         image_scores = class_scores(image_embeddings, self.text_embeddings, self.temperature, target_class=1)
         multi_scale_scores = self._compute_zero_shot_scores(image_scores, window_embeddings)
 
-        print("batch_size:", batch.shape[0])
-        print("image_scores zero-shot shape:", image_scores.shape)
-        np.savetxt('image_score_zero_shot.txt', image_scores.cpu().numpy())
-
         # get few-shot scores
         if self.k_shot:
             few_shot_scores = self._compute_few_shot_scores(patch_embeddings, window_embeddings)
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
-            np.savetxt('torch_amax.txt', few_shot_scores.amax(dim=(-2,-1)).cpu().numpy())
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
-            np.savetxt('image_scores+few_shot_amax.txt', image_scores.cpu().numpy())
 
+        print("anomaly map before interpolation")
+        np.savetxt('anomaly_map before interpolation', multi_scale_scores.cpu().numpy())
         # reshape to image dimensions
         pixel_scores = nn.functional.interpolate(
             multi_scale_scores.unsqueeze(1),
             size=batch.shape[-2:],
             mode="bilinear",
         )
+
+        print("anomaly map after interpolation")
+        np.savetxt('anomaly_map after interpolation', pixel_scores.cpu().numpy())
         return image_scores, pixel_scores.squeeze(1)
 
     def _compute_zero_shot_scores(
