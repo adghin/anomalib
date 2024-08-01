@@ -257,7 +257,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
             multi_scale_scores = (multi_scale_scores + few_shot_scores) / 2
             image_scores = (image_scores + few_shot_scores.amax(dim=(-2, -1))) / 2
 
-        print("anomaly map before interpolation")
+        print("anomaly map before interpolation",multi_scale_scores)
         np.savetxt('anomaly_map before interpolation', multi_scale_scores.cpu().numpy())
         # reshape to image dimensions
         pixel_scores = nn.functional.interpolate(
@@ -266,8 +266,7 @@ class WinClipModel(DynamicBufferMixin, BufferListMixin, nn.Module):
             mode="bilinear",
         )
 
-        print("anomaly map after interpolation")
-        np.savetxt('anomaly_map after interpolation', pixel_scores.cpu().numpy())
+        print("anomaly map after interpolation",pixels_scores)
         return image_scores, pixel_scores.squeeze(1)
 
     def _compute_zero_shot_scores(
